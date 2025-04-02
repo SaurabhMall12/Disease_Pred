@@ -8,7 +8,7 @@ Created on Wed Feb 19 12:11:56 2025
 import os
 import pickle
 import streamlit as st
-from streamlit_option_menu import option_menu
+# from streamlit_option_menu import option_menu
 
 # Set page configuration
 st.set_page_config(page_title="Health Assistant",
