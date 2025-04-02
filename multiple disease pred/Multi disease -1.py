@@ -8,7 +8,7 @@ Created on Wed Feb 19 12:11:56 2025
 import os
 import pickle
 import streamlit as st
-# from streamlit_option_menu import option_menu
+from streamlit_option_menu import option_menu
 
 # Set page configuration
 st.set_page_config(page_title="Health Assistant",
@@ -21,11 +21,11 @@ working_dir = os.path.dirname(os.path.abspath(__file__))
 
 # loading the saved models
 
-diabetes_model = pickle.load(open('C:/Users/Saurabh/Desktop/multiple disease pred/saved model/diabetes_model.sav','rb'))
+diabetes_model = pickle.load(open('./saved model/diabetes_model.sav','rb'))
 
-heart_disease_model = pickle.load(open('C:/Users/Saurabh/Desktop/multiple disease pred/saved model/heart_disease_model.sav','rb'))
+heart_disease_model = pickle.load(open('./saved model/heart_disease_model.sav','rb'))
 
-parkinsons_model = pickle.load(open('C:/Users/Saurabh/Desktop/multiple disease pred/saved model/parkinsons_model.sav','rb'))
+parkinsons_model = pickle.load(open('./saved model/parkinsons_model.sav','rb'))
 
 # sidebar for navigation
 with st.sidebar:
