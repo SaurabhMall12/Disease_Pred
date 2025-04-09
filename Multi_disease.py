@@ -263,33 +263,33 @@ import os
 
 st.subheader("📝 Leave a Review")
 
-# Input fields with session keys
+# Input fields with keys
 name = st.text_input("Your Name", key="name_input")
 review = st.text_area("Your Review", key="review_input")
 
 # Submit button
 if st.button("Submit Review"):
-    if st.session_state.name_input and st.session_state.review_input:
-        # Save to file
+    if st.session_state.get("name_input") and st.session_state.get("review_input"):
         with open("reviews.txt", "a") as f:
             f.write(f"{st.session_state.name_input}: {st.session_state.review_input}\n")
         st.success("Thank you for your feedback!")
 
-        # Clear inputs
-        st.session_state.name_input = ""
-        st.session_state.review_input = ""
+        # Clear inputs safely
+        st.session_state["name_input"] = ""
+        st.session_state["review_input"] = ""
     else:
-        st.warning("Please fill out both fields before submitting.")
+        st.warning("Please fill out both fields.")
 
-# Display previous reviews
+# Show previous reviews
 st.markdown("---")
 st.subheader("📋 Past Reviews")
 
 if os.path.exists("reviews.txt"):
     with open("reviews.txt", "r") as f:
         reviews = f.readlines()
-        for r in reversed(reviews[-5:]):  # Show last 5 reviews
+        for r in reversed(reviews[-5:]):
             st.text(r.strip())
 else:
     st.info("No reviews yet. Be the first to leave one!")
+
 
