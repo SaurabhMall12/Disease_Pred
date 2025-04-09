@@ -258,16 +258,34 @@ if selected == "Parkinsons Prediction":
 
 
 
-import datetime
+import streamlit as st
+import os
 
-with st.sidebar.expander("💬 Give Feedback"):
-    st.markdown("### We'd love your feedback!")
-    name = st.text_input("Your Name")
-    rating = st.slider("Rate this app (1 to 5 ⭐)", 1, 5)
-    comments = st.text_area("Your Suggestions or Feedback")
-    submit = st.button("Submit Review")
+st.markdown("---")
+st.subheader("📝 Leave a Review")
 
-    if submit:
-        with open("feedback.txt", "a") as f:
-            f.write(f"{datetime.datetime.now()} | Name: {name} | Rating: {rating}⭐ | Feedback: {comments}\n")
-        st.success("✅ Thanks for your feedback!")
+# Input for name and review
+name = st.text_input("Your Name")
+review = st.text_area("Your Review")
+
+# Save review to a file
+if st.button("Submit Review"):
+    if name and review:
+        with open("reviews.txt", "a") as f:
+            f.write(f"{name}: {review}\n")
+        st.success("Thank you for your feedback!")
+    else:
+        st.warning("Please fill out both fields before submitting.")
+
+# Display past reviews
+st.markdown("---")
+st.subheader("📋 Past Reviews")
+
+if os.path.exists("reviews.txt"):
+    with open("reviews.txt", "r") as f:
+        reviews = f.readlines()
+        for r in reversed(reviews[-5:]):  # Show last 5 reviews
+            st.text(r.strip())
+else:
+    st.info("No reviews yet. Be the first to leave one!")
+
