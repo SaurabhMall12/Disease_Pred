@@ -264,7 +264,7 @@ from datetime import datetime
 import os
 
 # Airtable config
-AIRTABLE_BASE_ID = st.secrets["https://airtable.com/apppXzaxMQnFe66O1/tblwIHUvyTBL49JCX/viwudesbVpMrlQxnW?blocks=hide"]
+AIRTABLE_BASE_ID = st.secrets["apppXzaxMQnFe66O1"]
 AIRTABLE_TABLE_NAME = "Reviews"
 AIRTABLE_TOKEN = st.secrets["pat1I8GhuhbB0Fxyq.1ab23904a8242487cdff3543a4b53f100f8d4fa39526cdc95b85c355325f0458"]
 
