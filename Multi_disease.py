@@ -284,11 +284,12 @@ if st.button("Submit Review"):
     else:
         st.warning("⚠️ Please fill out both fields.")
 
-# 📋 Display Past Reviews
+# Show recent reviews
 st.markdown("---")
 st.subheader("📋 Recent Reviews")
 
-records = table.all(sort=[("Timestamp", "desc")])  # Sort by newest first
+# Sort by timestamp and reverse to show newest first
+records = list(reversed(table.all(sort=["Timestamp"])))
 
 if records:
     for record in records[:5]:  # Show last 5
@@ -296,6 +297,7 @@ if records:
         st.text(f"{fields.get('Name', 'Anonymous')}: {fields.get('Review', '')} ({fields.get('Timestamp', '')})")
 else:
     st.info("No reviews yet.")
+
 
 
 
