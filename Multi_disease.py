@@ -259,35 +259,42 @@ if selected == "Parkinsons Prediction":
 
 
 import streamlit as st
+from pyairtable import Table
+from datetime import datetime
 import os
 
-st.markdown("---")
-st.subheader("📝 Leave a Review")
+# Airtable config
+AIRTABLE_BASE_ID = st.secrets["https://airtable.com/apppXzaxMQnFe66O1/tblwIHUvyTBL49JCX/viwudesbVpMrlQxnW?blocks=hide"]
+AIRTABLE_TABLE_NAME = "Reviews"
+AIRTABLE_TOKEN = st.secrets["pat1I8GhuhbB0Fxyq.1ab23904a8242487cdff3543a4b53f100f8d4fa39526cdc95b85c355325f0458"]
 
-# Input for name and review
+# Airtable client
+table = Table(AIRTABLE_TOKEN, AIRTABLE_BASE_ID, AIRTABLE_TABLE_NAME)
+
+st.title("📝 Leave a Review")
+
 name = st.text_input("Your Name")
 review = st.text_area("Your Review")
 
-# Save review to a file
 if st.button("Submit Review"):
     if name and review:
-        with open("reviews.txt", "a") as f:
-            f.write(f"{name}: {review}\n")
-        st.success("Thank you for your feedback!")
+        table.create({"Name": name, "Review": review})
+        st.success("✅ Thanks! Your review was saved.")
     else:
-        st.warning("Please fill out both fields before submitting.")
+        st.warning("⚠️ Please enter both name and review.")
 
-# Display past reviews
+# Show recent reviews
 st.markdown("---")
 st.subheader("📋 Past Reviews")
 
-if os.path.exists("reviews.txt"):
-    with open("reviews.txt", "r") as f:
-        reviews = f.readlines()
-        for r in reversed(reviews[-5:]):  # Show last 5 reviews
-            st.text(r.strip())
+records = table.all()
+if records:
+    for record in reversed(records[-5:]):
+        r = record['fields']
+        st.text(f"{r.get('Name', 'Anonymous')}: {r.get('Review', '')} ({r.get('Timestamp', '')})")
 else:
-    st.info("No reviews yet. Be the first to leave one!")
+    st.info("No reviews yet.")
+
 
 
 
