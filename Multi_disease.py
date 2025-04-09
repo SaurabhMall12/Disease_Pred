@@ -255,3 +255,19 @@ if selected == "Parkinsons Prediction":
             parkinsons_diagnosis = "The person does not have Parkinson's disease"
 
     st.success(parkinsons_diagnosis)
+
+
+
+import datetime
+
+with st.sidebar.expander("💬 Give Feedback"):
+    st.markdown("### We'd love your feedback!")
+    name = st.text_input("Your Name")
+    rating = st.slider("Rate this app (1 to 5 ⭐)", 1, 5)
+    comments = st.text_area("Your Suggestions or Feedback")
+    submit = st.button("Submit Review")
+
+    if submit:
+        with open("feedback.txt", "a") as f:
+            f.write(f"{datetime.datetime.now()} | Name: {name} | Rating: {rating}⭐ | Feedback: {comments}\n")
+        st.success("✅ Thanks for your feedback!")
