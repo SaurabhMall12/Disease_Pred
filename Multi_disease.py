@@ -259,21 +259,20 @@ if selected == "Parkinsons Prediction":
 
 
 import streamlit as st
-from pyairtable import Table
+from pyairtable import Api
 from datetime import datetime
 
-# ✅ Read secrets from Streamlit Cloud or .streamlit/secrets.toml
+# Load secrets
 AIRTABLE_TOKEN = st.secrets["AIRTABLE_TOKEN"]
 AIRTABLE_BASE_ID = st.secrets["AIRTABLE_BASE_ID"]
 AIRTABLE_TABLE_NAME = st.secrets["AIRTABLE_TABLE_NAME"]
 
-# ✅ Create Airtable client
-table = Table(AIRTABLE_TOKEN, AIRTABLE_BASE_ID, AIRTABLE_TABLE_NAME)
+# Use updated API
+api = Api(AIRTABLE_TOKEN)
+table = api.table(AIRTABLE_BASE_ID, AIRTABLE_TABLE_NAME)
 
-# 📝 Review Submission Section
-st.markdown("---")
-st.subheader("📝 Leave a Review")
-
+# Review form
+st.title("📝 Leave a Review")
 name = st.text_input("Your Name")
 review = st.text_area("Your Review")
 
@@ -284,19 +283,19 @@ if st.button("Submit Review"):
     else:
         st.warning("⚠️ Please fill out both fields.")
 
-# Show recent reviews
+# Show reviews
 st.markdown("---")
 st.subheader("📋 Recent Reviews")
 
-# Sort by timestamp and reverse to show newest first
 records = list(reversed(table.all(sort=["Timestamp"])))
 
 if records:
-    for record in records[:5]:  # Show last 5
+    for record in records[:5]:
         fields = record["fields"]
         st.text(f"{fields.get('Name', 'Anonymous')}: {fields.get('Review', '')} ({fields.get('Timestamp', '')})")
 else:
     st.info("No reviews yet.")
+
 
 
 
